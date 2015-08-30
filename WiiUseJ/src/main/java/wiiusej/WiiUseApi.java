@@ -20,7 +20,7 @@ import wiiusej.wiiusejevents.utils.EventsGatherer;
 
 /**
  * Singleton used to manipulate WiiUse Api.
- * 
+ *
  * @author guiguito
  */
 public class WiiUseApi {
@@ -33,7 +33,7 @@ public class WiiUseApi {
 
 	/**
 	 * Get the only instance of WiiUseApi.
-	 * 
+	 *
 	 * @return the only instace of WiiUseApi.
 	 */
 	protected static WiiUseApi getInstance() {
@@ -42,7 +42,7 @@ public class WiiUseApi {
 
 	/**
 	 * Connect to a wiimote or wiimotes once an address is known.
-	 * 
+	 *
 	 * @param nbWiimotes
 	 *            The number of wiimotes.
 	 * @return The number of wiimotes that successfully connected.
@@ -51,7 +51,7 @@ public class WiiUseApi {
 
 	/**
 	 * Find a wiimote or wiimotes.
-	 * 
+	 *
 	 * @param nbMaxWiimotes
 	 *            The number of wiimotes.
 	 * @param timeout
@@ -63,7 +63,7 @@ public class WiiUseApi {
 	/**
 	 * Initialize an array of wiimote structures (for the C side of the
 	 * library).
-	 * 
+	 *
 	 * @param nbPossibleWiimotes
 	 *            size of the array.
 	 */
@@ -71,7 +71,7 @@ public class WiiUseApi {
 
 	/**
 	 * Close connection to the wiimote with the given id.
-	 * 
+	 *
 	 */
 	synchronized native void closeConnection(int id);
 
@@ -79,11 +79,11 @@ public class WiiUseApi {
 	 * Get unique id of a wiimote in the wiimotes array. Please make sure you
 	 * call an existing index with a wiimote initialized at this index, other
 	 * wise you'll get a wrong value.
-	 * 
+	 *
 	 * @param index
 	 *            index of the wiimote in the wiimotes array.
 	 * @return the unid of the wiimote, or a wrong value if the index was false.
-	 * 
+	 *
 	 */
 	synchronized native int getUnId(int index);
 
@@ -94,7 +94,7 @@ public class WiiUseApi {
 
 	/**
 	 * Activate rumble on the wiimote with the given id.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote.
 	 */
@@ -102,7 +102,7 @@ public class WiiUseApi {
 
 	/**
 	 * Deactivate rumble on the wiimote with the given id.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote.
 	 */
@@ -110,7 +110,7 @@ public class WiiUseApi {
 
 	/**
 	 * Activate IR Tracking on the wiimote with the given id.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote.
 	 */
@@ -118,7 +118,7 @@ public class WiiUseApi {
 
 	/**
 	 * Deactivate IR Tracking on the wiimote with the given id.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote.
 	 */
@@ -126,7 +126,7 @@ public class WiiUseApi {
 
 	/**
 	 * Activate motion sensing on the wiimote with the given id.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote.
 	 */
@@ -134,7 +134,7 @@ public class WiiUseApi {
 
 	/**
 	 * Deactivate motion sensing on the wiimote with the given id.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote.
 	 */
@@ -142,7 +142,7 @@ public class WiiUseApi {
 
 	/**
 	 * Set wiimote leds status.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote concerned.
 	 * @param led1
@@ -159,7 +159,7 @@ public class WiiUseApi {
 
 	/**
 	 * Set how many degrees an angle must change to generate an event.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote concerned.
 	 * @param angle
@@ -169,7 +169,7 @@ public class WiiUseApi {
 
 	/**
 	 * Set how much acceleration must change to generate an event.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote concerned.
 	 * @param value
@@ -179,7 +179,7 @@ public class WiiUseApi {
 
 	/**
 	 * Set alpha smoothing parameter for the given id.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote concerned.
 	 * @param value
@@ -189,7 +189,7 @@ public class WiiUseApi {
 
 	/**
 	 * Try to resync with the wiimote by starting a new handshake.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote concerned.
 	 */
@@ -198,7 +198,7 @@ public class WiiUseApi {
 	/**
 	 * Make the the accelerometers give smoother results. This is set by
 	 * default.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote concerned.
 	 */
@@ -206,7 +206,7 @@ public class WiiUseApi {
 
 	/**
 	 * Make the the accelerometers give raw results.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote concerned.
 	 */
@@ -214,7 +214,7 @@ public class WiiUseApi {
 
 	/**
 	 * Make the wiimote generate an event each time we poll. Not set by default.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote concerned.
 	 */
@@ -222,7 +222,7 @@ public class WiiUseApi {
 
 	/**
 	 * Make the wiimote generate an event only when there is one.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote concerned.
 	 */
@@ -230,7 +230,7 @@ public class WiiUseApi {
 
 	/**
 	 * Notify wiiuse that your screen has an aspect ratio of 4/3.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote of which we want the status.
 	 */
@@ -238,7 +238,7 @@ public class WiiUseApi {
 
 	/**
 	 * Notify wiiuse that your screen has an aspect ratio of 16/9.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote of which we want the status.
 	 */
@@ -246,7 +246,7 @@ public class WiiUseApi {
 
 	/**
 	 * Notify wiiuse that the sensor bar is above your screen.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote of which we want the status.
 	 */
@@ -254,7 +254,7 @@ public class WiiUseApi {
 
 	/**
 	 * Notify wiiuse that the sensor bar is below your screen.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote of which we want the status.
 	 */
@@ -264,7 +264,7 @@ public class WiiUseApi {
 	 * Set virtual screen resolution. It is used to automatically compute the
 	 * position of a cursor on this virtual screen using the sensor bar. These
 	 * results come in the IREvent.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote of which we want the status.
 	 * @param x
@@ -276,7 +276,7 @@ public class WiiUseApi {
 
 	/**
 	 * Get status and values from the wiimotes and send it through callbacks.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote of which we want the status.
 	 */
@@ -284,7 +284,7 @@ public class WiiUseApi {
 
 	/**
 	 * Set the normal and expansion handshake timeouts.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote concerned.
 	 * @param normalTimeout
@@ -298,7 +298,7 @@ public class WiiUseApi {
 
 	/**
 	 * Set the IR sensitivity.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote concerned.
 	 * @param level
@@ -311,7 +311,7 @@ public class WiiUseApi {
 	/**
 	 * Set how many degrees an angle must change to generate an event for the
 	 * nunchuk.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote concerned.
 	 * @param angle
@@ -322,7 +322,7 @@ public class WiiUseApi {
 	/**
 	 * Set how much acceleration must change to generate an event for the
 	 * nunchuk.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote concerned.
 	 * @param value
@@ -332,7 +332,7 @@ public class WiiUseApi {
 
 	/**
 	 * Force the bluetooth stack type.(useful only for windows)
-	 * 
+	 *
 	 * @param bluetoothStackType
 	 *            must be WiiUseApi.WIIUSE_STACK_UNKNOWN or
 	 *            WiiUseApi.WIIUSE_STACK_MS or
@@ -342,7 +342,7 @@ public class WiiUseApi {
 
 	/**
 	 * Check for new Events and Get it.
-	 * 
+	 *
 	 * @param gath
 	 *            the object where we store all the new events.
 	 */
