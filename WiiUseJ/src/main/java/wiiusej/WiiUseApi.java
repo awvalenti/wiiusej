@@ -26,7 +26,26 @@ import wiiusej.wiiusejevents.utils.EventsGatherer;
 public class WiiUseApi {
 
 	static {
-		System.loadLibrary("WiiuseJ");
+		Platform platform = Platform.identify();
+		if (platform.isUnknown()) {
+			lookForLibraryAtDefaultPaths();
+		} else {
+			loadSpecificLibrary(platform.operatingSystem, platform.architectureSuffix,
+					platform.libPrefix, platform.libSuffix);
+		}
+	}
+
+	private static void lookForLibraryAtDefaultPaths() {
+		System.loadLibrary("wiiusej");
+	}
+
+	private static void loadSpecificLibrary(String os, String architectureSuffix, String libPrefix, String libSuffix) {
+		String wiiuseLibPath = ClasspathResourceExporter.exportToTempFile(String.format(
+				"/%s/%s/%swiiuse.dll", os, architectureSuffix, libPrefix), libSuffix);
+		String wiiusejLibPath = ClasspathResourceExporter.exportToTempFile(String.format(
+				"/%s/%s/%swiiusej.dll", os, architectureSuffix, libPrefix), libSuffix);
+		Runtime.getRuntime().load(wiiuseLibPath);
+		Runtime.getRuntime().load(wiiusejLibPath);
 	}
 
 	private static WiiUseApi instance = new WiiUseApi();
