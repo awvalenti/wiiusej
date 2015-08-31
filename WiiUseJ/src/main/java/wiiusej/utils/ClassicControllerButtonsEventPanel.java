@@ -44,7 +44,7 @@ import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 
 /**
  * This panel is used to display what happens on the classic controller.
- * 
+ *
  * @author guiguito
  */
 public class ClassicControllerButtonsEventPanel extends javax.swing.JPanel implements WiimoteListener {
@@ -68,14 +68,14 @@ public class ClassicControllerButtonsEventPanel extends javax.swing.JPanel imple
      */
     public ClassicControllerButtonsEventPanel() {
         Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
-        java.net.URL url = ButtonsEventPanel.class.getResource("/img/classiccontroller.png");
+        java.net.URL url = ButtonsEventPanel.class.getResource("/wiiusej/img/classiccontroller.png");
         wiimoteImage = toolkit.createImage(url);
         initComponents();
     }
 
     /**
      * Constructor used to set colors and shape used.
-     * 
+     *
      * @param pressColor
      *            color of a button just pressed.
      * @param hColor
@@ -165,7 +165,7 @@ public class ClassicControllerButtonsEventPanel extends javax.swing.JPanel imple
             if (buttons.isButtonBJustReleased()) {
                 drawFunction(g2, releasedColor, 269, 98, shapeButton);
             }
-                             
+
             /* button Down */
             if (buttons.isButtonDownJustPressed()) {
                 drawFunction(g2, pressedColor, 60, 97, shapeButton);
@@ -352,7 +352,7 @@ public class ClassicControllerButtonsEventPanel extends javax.swing.JPanel imple
 
     /**
      * Function used to factorize code.
-     * 
+     *
      * @param g2
      *            where to draw a shape.
      * @param col
@@ -361,7 +361,7 @@ public class ClassicControllerButtonsEventPanel extends javax.swing.JPanel imple
      *            x coordinates.
      * @param y
      *            y coordinates.
-     * @param sh 
+     * @param sh
      *            shape to draw.
      */
     private void drawFunction(Graphics2D g2, Color col, int x, int y, Shape sh) {

@@ -43,7 +43,7 @@ import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 /**
  * This panel is used to see what buttons are pressed on the wiimote. It
  * displays the result of last ButtonsEvent.
- * 
+ *
  * @author guiguito
  */
 public class ButtonsEventPanel extends javax.swing.JPanel implements
@@ -64,14 +64,14 @@ public class ButtonsEventPanel extends javax.swing.JPanel implements
 	public ButtonsEventPanel() {
 		Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 		java.net.URL url = ButtonsEventPanel.class
-				.getResource("/img/wiimote.png");
+				.getResource("/wiiusej/img/wiimote.png");
 		wiimoteImage = toolkit.createImage(url);
 		initComponents();
 	}
 
 	/**
 	 * Constructor used to set colors and shape used.
-	 * 
+	 *
 	 * @param pressColor
 	 *            color of a button just pressed.
 	 * @param hColor
@@ -88,7 +88,7 @@ public class ButtonsEventPanel extends javax.swing.JPanel implements
 		releasedColor = relColor;
 		shape = sh;
 		Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
-		wiimoteImage = toolkit.createImage("img\\wiimote.png");		
+		wiimoteImage = toolkit.createImage("img\\wiimote.png");
 		initComponents();
 	}
 
@@ -239,7 +239,7 @@ public class ButtonsEventPanel extends javax.swing.JPanel implements
 
 	/**
 	 * Function used to factorize code.
-	 * 
+	 *
 	 * @param g2
 	 *            where to draw a shape.
 	 * @param col
