@@ -28,8 +28,17 @@ public class WiiUseApi {
 	static {
 		try {
 			lookForLibsAtDefaultPaths();
-		} catch (UnsatisfiedLinkError e) {
-			copyLibsFromJarToTempAndLoad();
+		} catch (UnsatisfiedLinkError e1) {
+			try {
+				copyLibsFromJarToTempAndLoad();
+			} catch (Throwable e2) {
+				System.err.println("Unable to load native libraries.");
+				System.err.println("\nWhen trying to look at default paths:");
+				e1.printStackTrace();
+				System.err.println("\nWhen trying to copy from JAR to temp dir and load:");
+				e2.printStackTrace();
+				throw new RuntimeException();
+			}
 		}
 	}
 
