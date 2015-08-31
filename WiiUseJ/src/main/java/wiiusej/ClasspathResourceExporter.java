@@ -6,9 +6,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * @author awvalenti
+ */
 public class ClasspathResourceExporter {
 
-	public static String exportToTempFile(String resourcePath) {
+	/**
+	 * Copies a classpath resource to a temp file
+	 *
+	 * @param resourcePath
+	 *            path to the resource, like "/sounds/my-sound.mp3"
+	 * @return absolute path of the temp file created
+	 * @throws IOException In case any i/o operation fails
+	 */
+	public static String exportToTempFile(String resourcePath) throws IOException {
 		InputStream input = ClasspathResourceExporter.class.getResourceAsStream(resourcePath);
 		if (input == null) throw new NullPointerException("Resource not found on classpath: "
 				+ resourcePath);
@@ -23,20 +34,11 @@ public class ClasspathResourceExporter {
 			transferStreams(input, output);
 			return tempFile.getAbsolutePath();
 
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-
 		} finally {
 			try {
 				input.close();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
 			} finally {
-				try {
-					if (output != null) output.close();
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
+				if (output != null) output.close();
 			}
 		}
 	}

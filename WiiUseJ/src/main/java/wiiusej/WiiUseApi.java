@@ -26,34 +26,7 @@ import wiiusej.wiiusejevents.utils.EventsGatherer;
 public class WiiUseApi {
 
 	static {
-		try {
-			loadLibsFromDefaultPaths();
-		} catch (UnsatisfiedLinkError e1) {
-			try {
-				loadLibsFromTempDirAfterCopyingFromJar();
-			} catch (Throwable e2) {
-				System.err.println("Unable to load native libraries.");
-				System.err.println("\nWhen trying to look at default paths:");
-				e1.printStackTrace();
-				System.err.println("\nWhen trying to copy from JAR to temp dir and load:");
-				e2.printStackTrace();
-				throw new RuntimeException();
-			}
-		}
-	}
-
-	private static void loadLibsFromDefaultPaths() {
-		System.loadLibrary("wiiusej");
-	}
-
-	private static void loadLibsFromTempDirAfterCopyingFromJar() {
-		Platform p = Platform.identify();
-		String wiiuseLibPath = ClasspathResourceExporter.exportToTempFile(String.format(
-				"/%s/%s/%swiiuse.%s", p.operatingSystem, p.architectureSuffix, p.libPrefix, p.extension));
-		String wiiusejLibPath = ClasspathResourceExporter.exportToTempFile(String.format(
-				"/%s/%s/%swiiusej.%s", p.operatingSystem, p.architectureSuffix, p.libPrefix, p.extension));
-		Runtime.getRuntime().load(wiiuseLibPath);
-		Runtime.getRuntime().load(wiiusejLibPath);
+		NativeLibrariesLoader.loadLibs();
 	}
 
 	private static WiiUseApi instance = new WiiUseApi();
