@@ -26,24 +26,23 @@ import wiiusej.wiiusejevents.utils.EventsGatherer;
 public class WiiUseApi {
 
 	static {
-		Platform platform = Platform.identify();
-		if (platform.isUnknown()) {
-			lookForLibraryAtDefaultPaths();
-		} else {
-			loadSpecificLibrary(platform.operatingSystem, platform.architectureSuffix,
-					platform.libPrefix, platform.libSuffix);
+		try {
+			lookForLibsAtDefaultPaths();
+		} catch (UnsatisfiedLinkError e) {
+			copyLibsFromJarToTempAndLoad();
 		}
 	}
 
-	private static void lookForLibraryAtDefaultPaths() {
+	private static void lookForLibsAtDefaultPaths() {
 		System.loadLibrary("wiiusej");
 	}
 
-	private static void loadSpecificLibrary(String os, String architectureSuffix, String libPrefix, String libSuffix) {
+	private static void copyLibsFromJarToTempAndLoad() {
+		Platform p = Platform.identify();
 		String wiiuseLibPath = ClasspathResourceExporter.exportToTempFile(String.format(
-				"/%s/%s/%swiiuse.dll", os, architectureSuffix, libPrefix), libSuffix);
+				"/%s/%s/%swiiuse.%s", p.operatingSystem, p.architectureSuffix, p.libPrefix, p.extension));
 		String wiiusejLibPath = ClasspathResourceExporter.exportToTempFile(String.format(
-				"/%s/%s/%swiiusej.dll", os, architectureSuffix, libPrefix), libSuffix);
+				"/%s/%s/%swiiusej.%s", p.operatingSystem, p.architectureSuffix, p.libPrefix, p.extension));
 		Runtime.getRuntime().load(wiiuseLibPath);
 		Runtime.getRuntime().load(wiiusejLibPath);
 	}

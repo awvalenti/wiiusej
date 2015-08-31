@@ -4,35 +4,31 @@ class Platform {
 	public final String operatingSystem;
 	public final String architectureSuffix;
 	public final String libPrefix;
-	public final String libSuffix;
+	public final String extension;
 
 	private Platform(String operatingSystem, String architectureSuffix,
-			String libPrefix, String libSuffix) {
+			String libPrefix, String extension) {
 		this.libPrefix = libPrefix;
 		this.operatingSystem = operatingSystem;
 		this.architectureSuffix = architectureSuffix;
-		this.libSuffix = libSuffix;
+		this.extension = extension;
 	}
 
 	public static Platform identify() {
 		String osName = System.getProperty("os.name").toLowerCase();
 		if (osName.contains("win")) {
-			return new Platform("windows", identifyArchitecture(), "", ".dll");
+			return new Platform("windows", identifyArchitecture(), "", "dll");
 
 		} else if (osName.contains("mac") || osName.contains("nix") || osName.contains("nux")
 				|| osName.contains("aix")) {
-			return new Platform("unix-like", identifyArchitecture(), "lib", ".so");
+			return new Platform("unix-like", identifyArchitecture(), "lib", "so");
 
 		}
-		return new Platform("unknown", null, null, null);
+		throw new RuntimeException("Unable to identify operating system: " + System.getProperty("os.name"));
 	}
 
 	private static String identifyArchitecture() {
 		return System.getProperty("os.arch").contains("64") ? "x64" : "i386";
-	}
-
-	public boolean isUnknown() {
-		return operatingSystem.equals("unknown");
 	}
 
 }

@@ -8,16 +8,17 @@ import java.io.OutputStream;
 
 public class ClasspathResourceExporter {
 
-	public static String exportToTempFile(String resourcePath, String fileSuffix) {
+	public static String exportToTempFile(String resourcePath) {
+		InputStream input = ClasspathResourceExporter.class.getResourceAsStream(resourcePath);
+		if (input == null) throw new NullPointerException("Resource not found on classpath: "
+				+ resourcePath);
+
 		String filePath = System.getProperty("java.io.tmpdir");
 		String fileName = resourcePath.substring(resourcePath.lastIndexOf('/') + 1);
-		File tempFile = new File(filePath + fileName);
+		File tempFile = new File(filePath, fileName);
 
-		InputStream input = null;
 		OutputStream output = null;
-
 		try {
-			input = ClasspathResourceExporter.class.getResourceAsStream(resourcePath);
 			output = new FileOutputStream(tempFile);
 			transferStreams(input, output);
 			return tempFile.getAbsolutePath();
@@ -27,7 +28,7 @@ public class ClasspathResourceExporter {
 
 		} finally {
 			try {
-				if (input != null) input.close();
+				input.close();
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			} finally {
@@ -47,4 +48,5 @@ public class ClasspathResourceExporter {
 			output.write(buffer, 0, size);
 		}
 	}
+
 }
