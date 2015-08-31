@@ -27,10 +27,10 @@ public class WiiUseApi {
 
 	static {
 		try {
-			lookForLibsAtDefaultPaths();
+			loadLibsFromDefaultPaths();
 		} catch (UnsatisfiedLinkError e1) {
 			try {
-				copyLibsFromJarToTempAndLoad();
+				loadLibsFromTempDirAfterCopyingFromJar();
 			} catch (Throwable e2) {
 				System.err.println("Unable to load native libraries.");
 				System.err.println("\nWhen trying to look at default paths:");
@@ -42,11 +42,11 @@ public class WiiUseApi {
 		}
 	}
 
-	private static void lookForLibsAtDefaultPaths() {
+	private static void loadLibsFromDefaultPaths() {
 		System.loadLibrary("wiiusej");
 	}
 
-	private static void copyLibsFromJarToTempAndLoad() {
+	private static void loadLibsFromTempDirAfterCopyingFromJar() {
 		Platform p = Platform.identify();
 		String wiiuseLibPath = ClasspathResourceExporter.exportToTempFile(String.format(
 				"/%s/%s/%swiiuse.%s", p.operatingSystem, p.architectureSuffix, p.libPrefix, p.extension));
