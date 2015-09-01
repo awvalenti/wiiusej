@@ -1,4 +1,4 @@
-package wiiusej;
+package com.github.awvalenti.wiiusej;
 
 import java.io.File;
 import java.io.FileOutputStream;

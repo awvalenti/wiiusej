@@ -16,6 +16,8 @@
  */
 package wiiusej;
 
+import com.github.awvalenti.wiiusej.NativeLibrariesLoader;
+
 import wiiusej.wiiusejevents.utils.EventsGatherer;
 
 /**
@@ -25,6 +27,9 @@ import wiiusej.wiiusejevents.utils.EventsGatherer;
  */
 public class WiiUseApi {
 
+	/**
+	 * @author awvalenti
+	 */
 	static {
 		NativeLibrariesLoader.loadLibs();
 	}

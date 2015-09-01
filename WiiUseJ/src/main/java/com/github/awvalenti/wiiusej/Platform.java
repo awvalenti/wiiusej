@@ -1,6 +1,9 @@
-package wiiusej;
+package com.github.awvalenti.wiiusej;
 
-class Platform {
+/**
+ * @author awvalenti
+ */
+public class Platform {
 	public final String operatingSystem;
 	public final String architectureSuffix;
 	public final String libPrefix;
