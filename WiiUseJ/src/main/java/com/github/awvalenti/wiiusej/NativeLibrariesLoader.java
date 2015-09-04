@@ -31,10 +31,10 @@ public class NativeLibrariesLoader {
 	private static void secondAttempt() throws IOException {
 		Platform p = Platform.identify();
 		String wiiuseLibPath = ClasspathResourceExporter.exportToTempFile(String.format(
-				"/wiiusej/nativelibs/%s/%s/%swiiuse.%s", p.operatingSystem, p.architectureSuffix,
+				"/wiiusej/nativelibs/%s/%s/%swiiuse.%s", p.operatingSystem, p.architecture,
 				p.libPrefix, p.extension));
 		String wiiusejLibPath = ClasspathResourceExporter.exportToTempFile(String.format(
-				"/wiiusej/nativelibs/%s/%s/%swiiusej.%s", p.operatingSystem, p.architectureSuffix,
+				"/wiiusej/nativelibs/%s/%s/%swiiusej.%s", p.operatingSystem, p.architecture,
 				p.libPrefix, p.extension));
 		Runtime.getRuntime().load(wiiuseLibPath);
 		Runtime.getRuntime().load(wiiusejLibPath);

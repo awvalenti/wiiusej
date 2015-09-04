@@ -5,15 +5,14 @@ package com.github.awvalenti.wiiusej;
  */
 public class Platform {
 	public final String operatingSystem;
-	public final String architectureSuffix;
+	public final String architecture;
 	public final String libPrefix;
 	public final String extension;
 
-	private Platform(String operatingSystem, String architectureSuffix,
-			String libPrefix, String extension) {
+	private Platform(String operatingSystem, String architecture, String libPrefix, String extension) {
 		this.libPrefix = libPrefix;
 		this.operatingSystem = operatingSystem;
-		this.architectureSuffix = architectureSuffix;
+		this.architecture = architecture;
 		this.extension = extension;
 	}
 
@@ -27,7 +26,8 @@ public class Platform {
 			return new Platform("unix-like", identifyArchitecture(), "lib", "so");
 
 		}
-		throw new RuntimeException("Unable to identify operating system: " + System.getProperty("os.name"));
+		throw new RuntimeException("Unable to identify operating system: "
+				+ System.getProperty("os.name"));
 	}
 
 	private static String identifyArchitecture() {
