@@ -9,14 +9,29 @@
 		<version>0.13-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>wiiusej-test-gui-general</artifactId>
+	<artifactId>wiiusej-all</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.github.awvalenti.wiiusej</groupId>
 			<artifactId>wiiusej-core</artifactId>
-			<version>0.13-SNAPSHOT</version>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.awvalenti.wiiusej</groupId>
+			<artifactId>wiiusej-test-console</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.awvalenti.wiiusej</groupId>
+			<artifactId>wiiusej-test-gui-general</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.awvalenti.wiiusej</groupId>
+			<artifactId>wiiusej-test-gui-classic-controller</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 
