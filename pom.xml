@@ -3,16 +3,19 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<properties>
-		<project.build.sourceEncoding>US-ASCII</project.build.sourceEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	<groupId>com.github.awvalenti</groupId>
-	<artifactId>wiiusej</artifactId>
+	<groupId>com.github.awvalenti.wiiusej</groupId>
+	<artifactId>wiiusej-all</artifactId>
 	<packaging>pom</packaging>
 	<version>0.13-SNAPSHOT</version>
 
 	<modules>
-		<module>wiiusej-all</module>
+		<module>wiiusej-core</module>
+		<module>wiiusej-test-console</module>
+		<module>wiiusej-test-gui-general</module>
+		<module>wiiusej-test-gui-classic-controller</module>
 	</modules>
 
 	<build>
