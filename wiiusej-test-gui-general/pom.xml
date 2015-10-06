@@ -16,7 +16,7 @@
 		<dependency>
 			<groupId>com.github.awvalenti.wiiusej</groupId>
 			<artifactId>wiiusej-core</artifactId>
-			<version>0.13-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 
