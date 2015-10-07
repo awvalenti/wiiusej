@@ -7,16 +7,16 @@
 	</properties>
 
 	<groupId>com.github.awvalenti.wiiusej</groupId>
-	<artifactId>wiiusej-parent</artifactId>
+	<artifactId>wiiusej</artifactId>
 	<packaging>pom</packaging>
 	<version>0.13-SNAPSHOT</version>
 
 	<modules>
-		<module>wiiusej-core</module>
-		<module>wiiusej-test-console</module>
-		<module>wiiusej-test-gui-general</module>
-		<module>wiiusej-test-gui-classic-controller</module>
 		<module>wiiusej-all</module>
+		<module>wiiusej-core</module>
+		<module>wiiusej-demo-gui-classic-controller</module>
+		<module>wiiusej-demo-gui-general</module>
+		<module>wiiusej-test-console</module>
 	</modules>
 
 	<build>

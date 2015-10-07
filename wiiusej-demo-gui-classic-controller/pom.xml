@@ -5,17 +5,17 @@
 
 	<parent>
 		<groupId>com.github.awvalenti.wiiusej</groupId>
-		<artifactId>wiiusej-parent</artifactId>
+		<artifactId>wiiusej</artifactId>
 		<version>0.13-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>wiiusej-test-gui-classic-controller</artifactId>
+	<artifactId>wiiusej-demo-gui-classic-controller</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.github.awvalenti.wiiusej</groupId>
-			<artifactId>wiiusej-test-gui-general</artifactId>
+			<artifactId>wiiusej-demo-gui-general</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
