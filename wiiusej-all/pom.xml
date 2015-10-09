@@ -15,7 +15,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.github.awvalenti.wiiusej</groupId>
-			<artifactId>wiiusej-core</artifactId>
+			<artifactId>wiiusej-lib</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

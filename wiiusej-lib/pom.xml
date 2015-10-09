@@ -9,7 +9,7 @@
 		<version>0.13-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>wiiusej-core</artifactId>
+	<artifactId>wiiusej-lib</artifactId>
 	<packaging>jar</packaging>
 
 	<build>
