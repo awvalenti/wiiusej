@@ -16,6 +16,7 @@
 		<module>wiiusej-demo-gui-classic-controller</module>
 		<module>wiiusej-demo-gui-general</module>
 		<module>wiiusej-lib</module>
+		<module>wiiusej-jni</module>
 		<module>wiiusej-test-console</module>
 	</modules>
 
