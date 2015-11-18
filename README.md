@@ -1,5 +1,5 @@
 # wiiusej
-Fork of [guiguito's wiiusej](https://github.com/guiguito/wiiusej), originally on [Google Code](https://code.google.com/p/wiiusej/)
+A Java API for Wiimotes, fork of [guiguito's wiiusej](https://github.com/guiguito/wiiusej), originally on [Google Code](https://code.google.com/p/wiiusej/)
 
 ## Changes from original version
 - Project splitted into Maven modules
@@ -10,7 +10,7 @@ Fork of [guiguito's wiiusej](https://github.com/guiguito/wiiusej), originally on
 [GPL v3](http://www.gnu.org/licenses/gpl-3.0.en.html)
 
 ```
-wiiusej - Wii Remote library for Java
+wiiusej - Java API for Wiimotes
 Copyright (C) 2015  Andre Willik Valenti
 Copyright (C) 2008  Guilhem Duché
 
