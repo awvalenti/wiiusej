@@ -4,6 +4,7 @@ package com.github.awvalenti.wiiusej;
  * @author awvalenti
  */
 public class Platform {
+
 	public final String operatingSystem;
 	public final String architecture;
 	public final String libPrefix;
