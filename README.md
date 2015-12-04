@@ -1,6 +1,11 @@
 # wiiusej
 A Java API for Wiimotes, fork of [guiguito's wiiusej](https://github.com/guiguito/wiiusej), originally on [Google Code](https://code.google.com/p/wiiusej/)
 
+## External library
+wiiusej includes binaries from
+[wiiuse](http://www.macs.hw.ac.uk/~ruth/year4VEs/Labs/wiiuse.html).
+wiiuse is a native Wiimote library written in C.
+
 ## Changes from original version
 - Project splitted into Maven modules
 - Detecting operating system automatically
