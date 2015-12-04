@@ -1,20 +1,5 @@
-# wiiusej
-A Java API for Wiimotes, fork of [guiguito's wiiusej](https://github.com/guiguito/wiiusej), originally on [Google Code](https://code.google.com/p/wiiusej/)
+Source code available at https://github.com/awvalenti/wiiusej
 
-## External library
-wiiusej includes binaries from
-[wiiuse](http://www.macs.hw.ac.uk/~ruth/year4VEs/Labs/wiiuse.html).
-wiiuse is a native Wiimote library written in C.
-
-## Changes from original version
-- Project splitted into Maven modules
-- Detecting operating system automatically
-- Unpacking appropriate native libraries from JAR file to temp directory
-
-## License
-[GPL v3](http://www.gnu.org/licenses/gpl-3.0.en.html)
-
-```
 wiiusej - Java API for Wiimotes
 Copyright (C) 2015  Andre Willik Valenti
 Copyright (C) 2008  Guilhem Duche
@@ -31,4 +16,3 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-```
