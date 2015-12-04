@@ -1,4 +1,5 @@
-Source code available at https://github.com/awvalenti/wiiusej
+Project information and source code available at:
+  https://github.com/awvalenti/wiiusej
 
 wiiusej - Java API for Wiimotes
 Copyright (C) 2015  Andre Willik Valenti
