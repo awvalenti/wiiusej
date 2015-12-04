@@ -4,7 +4,7 @@ A Java API for Wiimotes, fork of [guiguito's wiiusej](https://github.com/guiguit
 ## Changes from original version
 - Project splitted into Maven modules
 - Detecting operating system automatically
-- Unpacking appropriate native libraries from JAR file
+- Unpacking appropriate native libraries from JAR file to temp directory
 
 ## License
 [GPL v3](http://www.gnu.org/licenses/gpl-3.0.en.html)
