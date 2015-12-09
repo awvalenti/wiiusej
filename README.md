@@ -1,5 +1,5 @@
 # wiiusej
-A Java API for Wiimotes, fork of [guiguito's wiiusej](https://github.com/guiguito/wiiusej), originally on [Google Code](https://code.google.com/p/wiiusej/)
+A Java API for Wiimotes, fork of [guiguito's wiiusej](https://github.com/guiguito/wiiusej), originally on [Google Code](https://code.google.com/p/wiiusej/).
 
 ## License
 [GPL v3](http://www.gnu.org/licenses/gpl-3.0.en.html)
