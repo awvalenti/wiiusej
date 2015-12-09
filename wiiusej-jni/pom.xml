@@ -6,18 +6,10 @@
 	<parent>
 		<groupId>com.github.awvalenti.wiiusej</groupId>
 		<artifactId>wiiusej</artifactId>
-		<version>0.13-SNAPSHOT</version>
+		<version>0.13</version>
 	</parent>
 
 	<artifactId>wiiusej-jni</artifactId>
 	<packaging>pom</packaging>
-
-	<dependencies>
-	</dependencies>
-
-	<build>
-		<plugins>
-		</plugins>
-	</build>
 
 </project>

@@ -6,27 +6,10 @@
 	<parent>
 		<groupId>com.github.awvalenti.wiiusej</groupId>
 		<artifactId>wiiusej</artifactId>
-		<version>0.13-SNAPSHOT</version>
+		<version>0.13</version>
 	</parent>
 
 	<artifactId>wiiusej-lib</artifactId>
 	<packaging>jar</packaging>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.6</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>wiiusej.test.Main</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>

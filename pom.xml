@@ -9,7 +9,7 @@
 	<groupId>com.github.awvalenti.wiiusej</groupId>
 	<artifactId>wiiusej</artifactId>
 	<packaging>pom</packaging>
-	<version>0.13-SNAPSHOT</version>
+	<version>0.13</version>
 
 	<modules>
 		<module>wiiusej-all</module>
