@@ -63,7 +63,7 @@ On ```<version>```, put either a git tag correponding to a released version (whi
 
 If you use Eclipse, sometimes the Maven plugin is unable to download JAR files properly from JitPack. If that happens, please try running ```mvn install``` from the command line and then updating Maven project on Eclipse (```right-click on the project > Maven > Update Project...```).
 
-## Former readme
+## Original readme
 ```
 WiiuseJ is a java API to use wiimotes on your computer. This API is built on
 top of an excellent API call Wiiuse using JNI.
