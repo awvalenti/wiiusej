@@ -32,8 +32,7 @@ To use wiiusej on a Maven project, add this to your pom.xml:
   <dependency>
     <groupId>com.github.awvalenti.wiiusej</groupId>
     <artifactId>wiiusej-lib</artifactId>
-    <version>v0.13</version>
-  </dependency>
+
     <!--
       Here goes either a git tag correponding to a released version,
       a commit hash or the string "-SNAPSHOT" (without the quotes,
@@ -66,11 +65,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ```
 
-### Former readme
+## Former readme
 ```
-WiiuseJ is a java API to use wiimotes on your computer. This API is built on top of an excellent API call Wiiuse using JNI.
+WiiuseJ is a java API to use wiimotes on your computer. This API is built on
+top of an excellent API call Wiiuse using JNI.
 
-WiiuseJ intent to be a very simple, easy to use and lightweight java API for wiimotes.
+WiiuseJ intent to be a very simple, easy to use and lightweight java API for
+wiimotes.
 
 Some of the great aspects of this API are :
 
@@ -92,7 +93,8 @@ CHANGELOG :
 
 wiiusej 0.12b :
 - make wiiusej compatible with java 1.5.
-- fixed a bug that made Null pointer exception happen when disconnecting several wiimotes.
+- fixed a bug that made Null pointer exception happen when disconnecting several
+wiimotes.
 
 wiiusej 0.12a :
 - added guitar hero controller support.
