@@ -1,6 +1,28 @@
 # wiiusej
 A Java API for Wiimotes, fork of [guiguito's wiiusej](https://github.com/guiguito/wiiusej), originally on [Google Code](https://code.google.com/p/wiiusej/)
 
+## License
+[GPL v3](http://www.gnu.org/licenses/gpl-3.0.en.html)
+
+```
+wiiusej - A Java API for Wiimotes
+Copyright (C) 2015  Andre Willik Valenti
+Copyright (C) 2008  Guilhem Duche
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+```
+
 ## Dependencies
 wiiusej includes binaries from
 [wiiuse](http://www.macs.hw.ac.uk/~ruth/year4VEs/Labs/wiiuse.html),
@@ -32,38 +54,14 @@ To use wiiusej on a Maven project, add this to your pom.xml:
   <dependency>
     <groupId>com.github.awvalenti.wiiusej</groupId>
     <artifactId>wiiusej-lib</artifactId>
-
-    <!--
-      Here goes either a git tag correponding to a released version,
-      a commit hash or the string "-SNAPSHOT" (without the quotes,
-      with the hyphen). The example below uses a git tag.
-    -->
     <version>v0.13</version>
   </dependency>
 </dependencies>
 ```
 
-## License
-[GPL v3](http://www.gnu.org/licenses/gpl-3.0.en.html)
+On ```<version>```, put either a git tag correponding to a released version (which is the case above) or a commit hash.
 
-```
-wiiusej - Java API for Wiimotes
-Copyright (C) 2015  Andre Willik Valenti
-Copyright (C) 2008  Guilhem Duche
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-```
+If you use Eclipse, sometimes the Maven plugin is unable to download JAR files properly from JitPack. If that happens, please try running ```mvn install``` from the command line and then updating Maven project on Eclipse (```right-click on the project > Maven > Update Project...```).
 
 ## Former readme
 ```
