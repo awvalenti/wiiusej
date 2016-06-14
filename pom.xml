@@ -12,12 +12,8 @@
 	<version>0.14-SNAPSHOT</version>
 
 	<modules>
-		<module>wiiusej-all</module>
-		<module>wiiusej-demo-gui-classic-controller</module>
-		<module>wiiusej-demo-gui-general</module>
 		<module>wiiusej-lib</module>
 		<module>wiiusej-jni</module>
-		<module>wiiusej-test-console</module>
 	</modules>
 
 	<build>

@@ -21,18 +21,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.event.EventListenerList;
 
+import com.github.awvalenti.wiiusej.WiiusejNativeLibrariesLoadingException;
+
 import wiiusej.wiiusejevents.utils.EventsGatherer;
 import wiiusej.wiiusejevents.utils.WiiUseApiListener;
 import wiiusej.wiiusejevents.wiiuseapievents.WiiUseApiEvent;
 
 /**
  * Class that manages the use of Wiiuse API.
- * 
+ *
  * @author guiguito
  */
 public class WiiUseApiManager extends Thread {
-
-	private static WiiUseApiManager instance = new WiiUseApiManager();
 
 	private final EventListenerList listeners = new EventListenerList();
 
@@ -40,7 +40,7 @@ public class WiiUseApiManager extends Thread {
 
 	private Wiimote[] wiimotes;
 
-	private WiiUseApi wiiuse = WiiUseApi.getInstance();
+	private WiiUseApi wiiuse;
 
 	private int connected = -1;
 
@@ -48,27 +48,30 @@ public class WiiUseApiManager extends Thread {
 
 	private boolean leave = false;
 
-	public static int WIIUSE_STACK_UNKNOWN = 0;
-	public static int WIIUSE_STACK_MS = 1;
-	public static int WIIUSE_STACK_BLUESOLEIL = 2;
+	public static final int WIIUSE_STACK_UNKNOWN = 0;
+	public static final int WIIUSE_STACK_MS = 1;
+	public static final int WIIUSE_STACK_BLUESOLEIL = 2;
 
-	public static WiiUseApiManager getInstance() {
-		return instance;
+	/**
+	 * @author awvalenti
+	 */
+	public WiiUseApiManager() throws WiiusejNativeLibrariesLoadingException {
+		wiiuse = new WiiUseApi();
 	}
 
 	/**
 	 * Get wiimotes. Load library if necessary. Connect to wiimotes if
 	 * necessary. Start polling if necessary. Return an array with the connected
 	 * wiimotes.
-	 * 
+	 *
 	 * @param nb
 	 *            try to connect nb wiimotes.
 	 * @param rumble
 	 *            make the connected wiimotes rumble.
-	 * 
+	 *
 	 * @return an array with connected wiimotes or NULL.
 	 */
-	public static Wiimote[] getWiimotes(int nb, boolean rumble) {
+	public Wiimote[] getWiimotes(int nb, boolean rumble) {
 		return getWiimotesPrivate(nb, rumble, false, WIIUSE_STACK_UNKNOWN);
 	}
 
@@ -76,7 +79,7 @@ public class WiiUseApiManager extends Thread {
 	 * Get wiimotes. Load library if necessary. Connect to wiimotes if
 	 * necessary. Start polling if necessary. Return an array with the connected
 	 * wiimotes.
-	 * 
+	 *
 	 * @param nb
 	 *            try to connect nb wiimotes.
 	 * @param rumble
@@ -85,10 +88,10 @@ public class WiiUseApiManager extends Thread {
 	 *            the stack type : WiiUseApiManager.WIIUSE_STACK_UNKNOWN or
 	 *            WiiUseApiManager.WIIUSE_STACK_MS or
 	 *            WiiUseApiManager.WIIUSE_STACK_BLUESOLEIL
-	 * 
+	 *
 	 * @return an array with connected wiimotes or NULL.
 	 */
-	public static Wiimote[] getWiimotes(int nb, boolean rumble, int stackType) {
+	public Wiimote[] getWiimotes(int nb, boolean rumble, int stackType) {
 		return getWiimotesPrivate(nb, rumble, true, stackType);
 	}
 
@@ -96,7 +99,7 @@ public class WiiUseApiManager extends Thread {
 	 * Get wiimotes. Load library if necessary. Connect to wiimotes if
 	 * necessary. Start polling if necessary. Return an array with the connected
 	 * wiimotes.
-	 * 
+	 *
 	 * @param nb
 	 *            try to connect nb wiimotes.
 	 * @param rumble
@@ -107,29 +110,27 @@ public class WiiUseApiManager extends Thread {
 	 *            the stack type : WiiUseApiManager.WIIUSE_STACK_UNKNOWN or
 	 *            WiiUseApiManager.WIIUSE_STACK_MS or
 	 *            WiiUseApiManager.WIIUSE_STACK_BLUESOLEIL
-	 * 
+	 *
 	 * @return an array with connected wiimotes or NULL.
 	 */
-	private synchronized static Wiimote[] getWiimotesPrivate(int nb,
+	private synchronized Wiimote[] getWiimotesPrivate(int nb,
 			boolean rumble, boolean forceStackType, int stackType) {
-		WiiUseApiManager manager = getInstance();
-
-		if (manager.leave)
+		if (leave)
 			return null;// wiiusej definitively stopped
 
-		if (manager.connected <= 0 && !manager.running.get()) {
+		if (connected <= 0 && !running.get()) {
 			// connect wiimotes.
-			int nbWiimotes = manager.connectWiimotes(nb, rumble,
+			int nbWiimotes = connectWiimotes(nb, rumble,
 					forceStackType, stackType);
-			manager.wiimotes = new Wiimote[nbWiimotes];
+			wiimotes = new Wiimote[nbWiimotes];
 			for (int i = 0; i < nbWiimotes; i++) {
-				Wiimote wim = new Wiimote(WiiUseApi.getInstance().getUnId(i),
-						manager);
-				manager.wiimotes[i] = wim;
-				manager.addWiiUseApiListener(wim);
+				Wiimote wim = new Wiimote(wiiuse.getUnId(i),
+						this);
+				wiimotes[i] = wim;
+				addWiiUseApiListener(wim);
 			}
 			// Set leds on wiimote
-			for (Wiimote wiimote : manager.wiimotes) {
+			for (Wiimote wiimote : wiimotes) {
 				int id = wiimote.getId();
 				if (id % 4 == 0) {
 					wiimote.setLeds(true, true, true, true);
@@ -143,36 +144,36 @@ public class WiiUseApiManager extends Thread {
 			}
 			// make the connected wiimotes rumble
 			if (rumble) {
-				for (Wiimote wiimote : manager.wiimotes) {
+				for (Wiimote wiimote : wiimotes) {
 					wiimote.activateRumble();
 				}
 				try {
 					sleep(500);
 				} catch (InterruptedException e) {
 				}
-				for (Wiimote wiimote : manager.wiimotes) {
+				for (Wiimote wiimote : wiimotes) {
 					wiimote.deactivateRumble();
 				}
 			}
 		}
 
-		if (manager.connected == 0) {// no wiimote connected
+		if (connected == 0) {// no wiimote connected
 			// return empty array
 			return new Wiimote[0];
 		}
 
-		if (!manager.isAlive())// start wiiuseJ polling
-			manager.start();
+		if (!isAlive())// start wiiuseJ polling
+			start();
 
-		manager.semaphore.release(1);
+		semaphore.release(1);
 
-		return manager.wiimotes;
+		return wiimotes;
 	}
 
 	/**
 	 * Connect wiimote and get the number of wiimotes connected. Supposed to be
 	 * used once.
-	 * 
+	 *
 	 * @param nb
 	 *            try to connect nb wiimotes
 	 * @param rumble
@@ -203,7 +204,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Ask the thread to close a connection.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote to disconnect.
 	 */
@@ -231,28 +232,27 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Get the number of wiimotes connected.
-	 * 
+	 *
 	 * @return the number of wiimotes connected.
 	 */
-	public static int getNbConnectedWiimotes() {
-		return getInstance().connected;
+	public int getNbConnectedWiimotes() {
+		return connected;
 	}
 
 	/**
 	 * Stop thread and shutdown wiiuse Api.
 	 */
-	public static void shutdown() {
-		WiiUseApiManager manager = getInstance();
-		int pastConnected = manager.connected; 
-		if (manager.connected > 0) {
-			for (Wiimote wim : manager.wiimotes) {
+	public void shutdown() {
+		int pastConnected = connected;
+		if (connected > 0) {
+			for (Wiimote wim : wiimotes) {
 				if (wim != null)
 					wim.disconnect();
 			}
 		}
-		manager.running.set(false);
+		running.set(false);
 		if (pastConnected > 0) {
-			manager.wiiuse.cleanUp();
+			wiiuse.cleanUp();
 		}
 	}
 
@@ -260,14 +260,14 @@ public class WiiUseApiManager extends Thread {
 	 * Stop wiiuseJ definitively for this program. It finishes Wiiusej thread
 	 * and shutdown wiiuse API.
 	 */
-	public static void definitiveShutdown() {
-		getInstance().leave = true;
+	public void definitiveShutdown() {
+		leave = true;
 		shutdown();
 	}
 
 	/**
 	 * Activate the rumble for the wiimote with the given id.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 */
@@ -277,7 +277,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Deactivate the rumble for the wiimote with the given id.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 */
@@ -287,7 +287,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Activate IR Tracking for the wiimote with the given id.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 */
@@ -297,7 +297,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Deactivate IR Tracking for the wiimote with the given id.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 */
@@ -307,7 +307,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Activate motion sensing for the wiimote with the given id.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 */
@@ -317,7 +317,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Deactivate motion sensing for the wiimoter with the given id.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 */
@@ -327,7 +327,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Activate smoothing the wiimotes with the given id.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 */
@@ -337,7 +337,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Deactivate smoothing the wiimotes with the given id.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 */
@@ -347,7 +347,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Activate continuous for the wiimotes with the given id.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 */
@@ -357,7 +357,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Deactivate continuous for the wiimotes with the given id.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 */
@@ -367,7 +367,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Set leds for the wiimotes with the given id.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote
 	 * @param l1
@@ -387,7 +387,7 @@ public class WiiUseApiManager extends Thread {
 	/**
 	 * Set the orientation threshold for the given id. (minimum angle between
 	 * two events)
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 * @param th
@@ -400,7 +400,7 @@ public class WiiUseApiManager extends Thread {
 	/**
 	 * Set the acceleration threshold for the given id. (minimum angle between
 	 * two events)
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 * @param th
@@ -412,7 +412,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Set alpha smoothing for the given id.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 * @param th
@@ -424,7 +424,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Try to resync with the wiimote by starting a new handshake.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 */
@@ -434,7 +434,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Set screen aspect ratio to 4/3 for the given id.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 */
@@ -444,7 +444,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Set screen aspect ratio to 16/9 for the given id.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 */
@@ -454,7 +454,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Set the sensor bar to be above the screen.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 */
@@ -464,7 +464,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Set the sensor bar to be below the screen.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 */
@@ -476,7 +476,7 @@ public class WiiUseApiManager extends Thread {
 	 * Set virtual resolution. It is used to automatically compute the position
 	 * of a cursor on this virtual screen using the sensor bar. These results
 	 * come in the IREvent.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 * @param x
@@ -490,7 +490,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Get Status for the wiimote for the given id.
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 */
@@ -500,7 +500,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Set the normal and expansion handshake timeouts.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote concerned.
 	 * @param normalTimeout
@@ -516,7 +516,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Set the IR sensitivity.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the wiimote concerned.
 	 * @param level
@@ -531,7 +531,7 @@ public class WiiUseApiManager extends Thread {
 	/**
 	 * Set the nunchuk orientation threshold for the given id. (minimum angle
 	 * between two events)
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 * @param th
@@ -544,7 +544,7 @@ public class WiiUseApiManager extends Thread {
 	/**
 	 * Set the nunchuk acceleration threshold for the given id. (minimum angle
 	 * between two events)
-	 * 
+	 *
 	 * @param id
 	 *            id of the wiimote.
 	 * @param th
@@ -556,7 +556,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Force the bluetooth stack type.(useful only for windows)
-	 * 
+	 *
 	 * @param type
 	 *            must be WIIUSE_STACK_UNKNOWN or WIIUSE_STACK_MS or
 	 *            WIIUSE_STACK_BLUESOLEIL.
@@ -571,7 +571,7 @@ public class WiiUseApiManager extends Thread {
 		while (!leave) {
 			try {
 				semaphore.acquire();
-			} catch (InterruptedException e) {				
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 
@@ -615,7 +615,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Add WiiUseApiListener to the listeners list.
-	 * 
+	 *
 	 * @param listener
 	 *            a WiiUseApiListener
 	 */
@@ -625,7 +625,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Remove WiiUseApiListener from the listeners list.
-	 * 
+	 *
 	 * @param listener
 	 *            a WiiUseApiListener
 	 */
@@ -635,7 +635,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Get the list of WiiUseApiListeners.
-	 * 
+	 *
 	 * @return the list of WiiUseApiListeners.
 	 */
 	protected WiiUseApiListener[] getWiiUseApiListeners() {
@@ -644,7 +644,7 @@ public class WiiUseApiManager extends Thread {
 
 	/**
 	 * Notify WiiUseApiListeners that an event occured.
-	 * 
+	 *
 	 * @param evt
 	 *            GenericEvent occured
 	 */
@@ -657,6 +657,7 @@ public class WiiUseApiManager extends Thread {
 	/**
 	 * Called by the garbage collector at the end.
 	 */
+	@Override
 	protected void finalize() throws Throwable {
 		shutdown();
 	}
