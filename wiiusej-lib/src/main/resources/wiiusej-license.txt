@@ -1,12 +1,14 @@
 Project information and source code available at:
   https://github.com/awvalenti/wiiusej
 
-wiiusej - Java API for Wiimotes
+wiiusej - Java API for Wiimotes, modified version of Guilhem Duche's
 Copyright (C) 2015, 2016  Andre Willik Valenti
 Copyright (C) 2008  Guilhem Duche
 
 wiiusej depends on this project:
   wiiuse: http://www.macs.hw.ac.uk/~ruth/year4VEs/Labs/wiiuse.html
+  
+Original version: https://github.com/guiguito/wiiusej
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
