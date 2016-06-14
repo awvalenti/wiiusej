@@ -1,5 +1,10 @@
 # wiiusej
-A Java API for Wiimotes, fork of [guiguito's wiiusej](https://github.com/guiguito/wiiusej), originally on [Google Code](https://code.google.com/p/wiiusej/).
+A Java API for Wiimotes, fork of [guiguito's wiiusej](https://github.com/guiguito/wiiusej), originally on [Google Code](https://code.google.com/p/wiiusej/). Tested only on Windows.
+
+## Changes from original version
+- Project splitted into Maven modules
+- Detecting operating system automatically
+- Unpacking appropriate native libraries from JAR file to temp directory
 
 ## License
 [GPL v3](http://www.gnu.org/licenses/gpl-3.0.en.html)
@@ -27,11 +32,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 wiiusej includes binaries from
 [wiiuse](http://www.macs.hw.ac.uk/~ruth/year4VEs/Labs/wiiuse.html),
 a native Wiimote library by Michael Laforest.
-
-## Changes from original version
-- Project splitted into Maven modules
-- Detecting operating system automatically
-- Unpacking appropriate native libraries from JAR file to temp directory
 
 ## Installation
 You can either:

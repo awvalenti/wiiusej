@@ -9,33 +9,28 @@ public class NativeLibrariesLoader {
 
 	public static void loadLibs() {
 		try {
-			firstAttempt();
-		} catch (UnsatisfiedLinkError e1) {
-			try {
-				secondAttempt();
-			} catch (Throwable e2) {
-				System.err.println("Unable to load native libraries.");
-				System.err.println("\nWhen trying to look at default lib paths:");
-				e1.printStackTrace();
-				System.err.println("\nWhen trying to copy from JAR to temp dir and load:");
-				e2.printStackTrace();
-				throw new RuntimeException();
-			}
+			copyFromJarAndLoadFromTempDir();
+		} catch (Throwable e2) {
+			System.err.println(""
+					+ "Unable to load native libraries. When trying to copy"
+					+ " from JAR to temp dir and load:\n"
+					+ "\t" + e2
+					+ "");
+			throw new RuntimeException();
 		}
 	}
 
-	private static void firstAttempt() {
-		System.loadLibrary("wiiusej");
-	}
-
-	private static void secondAttempt() throws IOException {
+	private static void copyFromJarAndLoadFromTempDir() throws IOException {
 		Platform p = Platform.identify();
+
 		String wiiuseLibPath = ClasspathResourceExporter.exportToTempFile(String.format(
 				"/com/github/awvalenti/wiiusej/nativelibs/%s/%s/%swiiuse.%s", p.operatingSystem,
 				p.architecture, p.libPrefix, p.extension));
+
 		String wiiusejLibPath = ClasspathResourceExporter.exportToTempFile(String.format(
 				"/com/github/awvalenti/wiiusej/nativelibs/%s/%s/%swiiusej.%s", p.operatingSystem,
 				p.architecture, p.libPrefix, p.extension));
+
 		Runtime.getRuntime().load(wiiuseLibPath);
 		Runtime.getRuntime().load(wiiusejLibPath);
 	}
