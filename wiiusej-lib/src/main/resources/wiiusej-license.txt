@@ -5,6 +5,10 @@ wiiusej - Java API for Wiimotes
 Copyright (C) 2015  Andre Willik Valenti
 Copyright (C) 2008  Guilhem Duche
 
+wiiuse is a Wiimote library by Michael Laforest. Project information and
+source code can be found at:
+  http://www.macs.hw.ac.uk/~ruth/year4VEs/Labs/wiiuse.html
+
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
