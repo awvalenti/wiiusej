@@ -64,15 +64,12 @@ public class WiiUseApiManager extends Thread {
 	 * necessary. Start polling if necessary. Return an array with the connected
 	 * wiimotes.
 	 *
-	 * @param nb
+	 * @param numberOfWiimotes
 	 *            try to connect nb wiimotes.
-	 * @param rumble
-	 *            make the connected wiimotes rumble.
-	 *
 	 * @return an array with connected wiimotes or NULL.
 	 */
-	public Wiimote[] getWiimotes(int nb, boolean rumble) {
-		return getWiimotesPrivate(nb, rumble, false, WIIUSE_STACK_UNKNOWN);
+	public Wiimote[] getWiimotes(int numberOfWiimotes) {
+		return getWiimotesPrivate(numberOfWiimotes, false, WIIUSE_STACK_UNKNOWN);
 	}
 
 	/**
@@ -80,80 +77,31 @@ public class WiiUseApiManager extends Thread {
 	 * necessary. Start polling if necessary. Return an array with the connected
 	 * wiimotes.
 	 *
-	 * @param nb
-	 *            try to connect nb wiimotes.
-	 * @param rumble
-	 *            make the connected wiimotes rumble.*
-	 * @param stackType
-	 *            the stack type : WiiUseApiManager.WIIUSE_STACK_UNKNOWN or
-	 *            WiiUseApiManager.WIIUSE_STACK_MS or
-	 *            WiiUseApiManager.WIIUSE_STACK_BLUESOLEIL
-	 *
-	 * @return an array with connected wiimotes or NULL.
-	 */
-	public Wiimote[] getWiimotes(int nb, boolean rumble, int stackType) {
-		return getWiimotesPrivate(nb, rumble, true, stackType);
-	}
-
-	/**
-	 * Get wiimotes. Load library if necessary. Connect to wiimotes if
-	 * necessary. Start polling if necessary. Return an array with the connected
-	 * wiimotes.
-	 *
-	 * @param nb
-	 *            try to connect nb wiimotes.
-	 * @param rumble
-	 *            make the connected wiimotes rumble.*
+	 * @param numberOfWiimotes
+	 *            try to connect to this number of wiimotes.
 	 * @param forceStackType
 	 *            true if we want to force the stack type.
 	 * @param stackType
 	 *            the stack type : WiiUseApiManager.WIIUSE_STACK_UNKNOWN or
 	 *            WiiUseApiManager.WIIUSE_STACK_MS or
 	 *            WiiUseApiManager.WIIUSE_STACK_BLUESOLEIL
-	 *
 	 * @return an array with connected wiimotes or NULL.
 	 */
-	private synchronized Wiimote[] getWiimotesPrivate(int nb,
-			boolean rumble, boolean forceStackType, int stackType) {
+	private synchronized Wiimote[] getWiimotesPrivate(int numberOfWiimotes,
+			boolean forceStackType, int stackType) {
 		if (leave)
 			return null;// wiiusej definitively stopped
 
 		if (connected <= 0 && !running.get()) {
 			// connect wiimotes.
-			int nbWiimotes = connectWiimotes(nb, rumble,
-					forceStackType, stackType);
+			int nbWiimotes = connectWiimotes(numberOfWiimotes, forceStackType,
+					stackType);
 			wiimotes = new Wiimote[nbWiimotes];
 			for (int i = 0; i < nbWiimotes; i++) {
 				Wiimote wim = new Wiimote(wiiuse.getUnId(i),
 						this);
 				wiimotes[i] = wim;
 				addWiiUseApiListener(wim);
-			}
-			// Set leds on wiimote
-			for (Wiimote wiimote : wiimotes) {
-				int id = wiimote.getId();
-				if (id % 4 == 0) {
-					wiimote.setLeds(true, true, true, true);
-				} else if (id % 4 == 1) {
-					wiimote.setLeds(true, false, false, false);
-				} else if (id % 4 == 2) {
-					wiimote.setLeds(true, true, false, false);
-				} else if (id % 4 == 3) {
-					wiimote.setLeds(true, true, true, false);
-				}
-			}
-			// make the connected wiimotes rumble
-			if (rumble) {
-				for (Wiimote wiimote : wiimotes) {
-					wiimote.activateRumble();
-				}
-				try {
-					sleep(500);
-				} catch (InterruptedException e) {
-				}
-				for (Wiimote wiimote : wiimotes) {
-					wiimote.deactivateRumble();
-				}
 			}
 		}
 
@@ -176,8 +124,6 @@ public class WiiUseApiManager extends Thread {
 	 *
 	 * @param nb
 	 *            try to connect nb wiimotes
-	 * @param rumble
-	 *            make the connected wiimotes rumble
 	 * @param forceStackType
 	 *            true if we want to force the stack type.
 	 * @param stackType
@@ -186,8 +132,7 @@ public class WiiUseApiManager extends Thread {
 	 *            WiiUseApiManager.WIIUSE_STACK_BLUESOLEIL
 	 * @return 0 if nothing connected or the number of wiimotes connected.
 	 */
-	private int connectWiimotes(int nb, boolean rumble, boolean forceStackType,
-			int stackType) {
+	private int connectWiimotes(int nb, boolean forceStackType, int stackType) {
 		if (connected <= 0) {
 			int nbWiimotesFound;
 			wiiuse.init(nb);
