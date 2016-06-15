@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.event.EventListenerList;
 
-import com.github.awvalenti.wiiusej.WiiusejNativeLibrariesLoadingException;
+import com.github.awvalenti.wiiusej.WiiusejNativeLibraryLoadingException;
 
 import wiiusej.wiiusejevents.utils.EventsGatherer;
 import wiiusej.wiiusejevents.utils.WiiUseApiListener;
@@ -55,7 +55,7 @@ public class WiiUseApiManager extends Thread {
 	/**
 	 * @author awvalenti
 	 */
-	public WiiUseApiManager() throws WiiusejNativeLibrariesLoadingException {
+	public WiiUseApiManager() throws WiiusejNativeLibraryLoadingException {
 		wiiuse = new WiiUseApi();
 	}
 

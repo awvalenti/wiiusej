@@ -1,19 +1,21 @@
-package com.github.awvalenti.wiiusej;
+package com.github.awvalenti.wiiusej.internal;
+
+import com.github.awvalenti.wiiusej.WiiusejNativeLibraryLoadingException;
 
 /**
  * @author awvalenti
  */
-public class NativeLibrariesLoader {
+public class WiiuseLibraryLoader {
 
 	private boolean successfullyLoaded = false;
 
-	public synchronized void loadLibsIfNotLoaded() throws WiiusejNativeLibrariesLoadingException {
+	public synchronized void loadIfNotLoadedYet() throws WiiusejNativeLibraryLoadingException {
 		if (!successfullyLoaded) {
 			try {
 				copyFromJarAndLoadFromTempDir();
 				successfullyLoaded = true;
 			} catch (Throwable t) {
-				throw new WiiusejNativeLibrariesLoadingException(t);
+				throw new WiiusejNativeLibraryLoadingException(t);
 			}
 		}
 	}

@@ -16,8 +16,8 @@
  */
 package wiiusej;
 
-import com.github.awvalenti.wiiusej.NativeLibrariesLoader;
-import com.github.awvalenti.wiiusej.WiiusejNativeLibrariesLoadingException;
+import com.github.awvalenti.wiiusej.WiiusejNativeLibraryLoadingException;
+import com.github.awvalenti.wiiusej.internal.WiiuseLibraryLoader;
 
 import wiiusej.wiiusejevents.utils.EventsGatherer;
 
@@ -28,13 +28,16 @@ import wiiusej.wiiusejevents.utils.EventsGatherer;
  */
 public class WiiUseApi {
 
-	private static final NativeLibrariesLoader nativeLibrariesLoader = new NativeLibrariesLoader();
+	/**
+	 * @author awvalenti
+	 */
+	private static final WiiuseLibraryLoader wiiuseLibraryLoader = new WiiuseLibraryLoader();
 
 	/**
 	 * @author awvalenti
 	 */
-	public WiiUseApi() throws WiiusejNativeLibrariesLoadingException {
-		nativeLibrariesLoader.loadLibsIfNotLoaded();
+	public WiiUseApi() throws WiiusejNativeLibraryLoadingException {
+		wiiuseLibraryLoader.loadIfNotLoadedYet();
 	}
 
 	/**

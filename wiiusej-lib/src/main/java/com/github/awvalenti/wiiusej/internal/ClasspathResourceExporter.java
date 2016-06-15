@@ -1,4 +1,4 @@
-package com.github.awvalenti.wiiusej;
+package com.github.awvalenti.wiiusej.internal;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -9,7 +9,7 @@ import java.io.OutputStream;
 /**
  * @author awvalenti
  */
-public class ClasspathResourceExporter {
+class ClasspathResourceExporter {
 
 	/**
 	 * Copies a classpath resource to a temp file

@@ -1,9 +1,9 @@
-package com.github.awvalenti.wiiusej;
+package com.github.awvalenti.wiiusej.internal;
 
 /**
  * @author awvalenti
  */
-public class Platform {
+class Platform {
 
 	public final String operatingSystem;
 	public final String architecture;
