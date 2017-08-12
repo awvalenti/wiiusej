@@ -1,5 +1,8 @@
 package com.github.awvalenti.wiiusej;
 
+/**
+ * @author awvalenti
+ */
 public class WiiusejNativeLibraryLoadingException extends Exception {
 
 	private static final long serialVersionUID = 1L;
