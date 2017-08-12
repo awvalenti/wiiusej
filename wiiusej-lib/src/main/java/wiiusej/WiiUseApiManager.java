@@ -57,6 +57,17 @@ public class WiiUseApiManager extends Thread {
 	 */
 	public WiiUseApiManager() throws WiiusejNativeLibraryLoadingException {
 		wiiuse = new WiiUseApi();
+
+		// Allows Java program to terminate even when this thread is still alive
+		setDaemon(true);
+
+		// When program finishes, clean up WiiuseJ and Wiiuse resources
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			@Override
+			public void run() {
+				definitiveShutdown();
+			}
+		});
 	}
 
 	/**
@@ -197,6 +208,7 @@ public class WiiUseApiManager extends Thread {
 		}
 		running.set(false);
 		if (pastConnected > 0) {
+			// Shouldn't this be called always?
 			wiiuse.cleanUp();
 		}
 	}
