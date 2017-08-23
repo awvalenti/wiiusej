@@ -16,7 +16,6 @@
  */
 package wiiusej;
 
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.event.EventListenerList;
@@ -31,12 +30,11 @@ import wiiusej.wiiusejevents.wiiuseapievents.WiiUseApiEvent;
  * Class that manages the use of Wiiuse API.
  *
  * @author guiguito
+ * @author awvalenti
  */
-public class WiiUseApiManager extends Thread {
+public class WiiUseApiManager {
 
 	private final EventListenerList listeners = new EventListenerList();
-
-	private Semaphore semaphore = new Semaphore(0);
 
 	private Wiimote[] wiimotes;
 
@@ -55,11 +53,13 @@ public class WiiUseApiManager extends Thread {
 	/**
 	 * @author awvalenti
 	 */
+	private PollingThread pollingThread = new PollingThread();
+
+	/**
+	 * @author awvalenti
+	 */
 	public WiiUseApiManager() throws WiiusejNativeLibraryLoadingException {
 		wiiuse = new WiiUseApi();
-
-		// Allows Java program to terminate even when this thread is still alive
-		setDaemon(true);
 
 		// When program finishes, clean up WiiuseJ and Wiiuse resources
 		Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -97,6 +97,9 @@ public class WiiUseApiManager extends Thread {
 	 *            WiiUseApiManager.WIIUSE_STACK_MS or
 	 *            WiiUseApiManager.WIIUSE_STACK_BLUESOLEIL
 	 * @return an array with connected wiimotes or NULL.
+	 *
+	 * @author guiguito
+	 * @author awvalenti
 	 */
 	private synchronized Wiimote[] getWiimotesPrivate(int numberOfWiimotes,
 			boolean forceStackType, int stackType) {
@@ -116,17 +119,12 @@ public class WiiUseApiManager extends Thread {
 			}
 		}
 
-		if (connected == 0) {// no wiimote connected
-			// return empty array
+		if (connected > 0) {
+			pollingThread.startIfNotRunning();
+			return wiimotes;
+		} else {
 			return new Wiimote[0];
 		}
-
-		if (!isAlive())// start wiiuseJ polling
-			start();
-
-		semaphore.release(1);
-
-		return wiimotes;
 	}
 
 	/**
@@ -521,52 +519,51 @@ public class WiiUseApiManager extends Thread {
 		wiiuse.windowsSetBluetoothStack(type);
 	}
 
-	@Override
-	public void run() {
+	/**
+	 * @author awvalenti
+	 */
+	private class PollingThread implements Runnable {
 
-		while (!leave) {
-			try {
-				semaphore.acquire();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		public void startIfNotRunning() {
+			boolean isNotRunning = running.compareAndSet(false, true);
+			if (isNotRunning) new Thread(this).start();
+		}
 
-			if (connected > 0) {
-				running.set(true);
+		/**
+		 * @author guiguito
+		 * @author awvalenti
+		 */
+		@Override
+		public void run() {
+			EventsGatherer gather = new EventsGatherer(connected);
 
-				EventsGatherer gather = new EventsGatherer(connected);
+			// Start polling and tell the observers when there are Wiimote
+			// events
+			while (running.get() && connected > 0) {
 
-				// Start polling and tell the observers when there are Wiimote
-				// events
-				while (running.get() && connected > 0) {
+				/* Polling */
+				wiiuse.specialPoll(gather);
 
-					/* Polling */
-					wiiuse.specialPoll(gather);
-
-					/* deal with events gathered in Wiiuse API */
-					for (WiiUseApiEvent evt : gather.getEvents()) {
-						if (evt.getWiimoteId() != -1) {// event filled
-							// there is an event notify observers
-							notifyWiiUseApiListener(evt);
-							if (evt.getEventType() == WiiUseApiEvent.DISCONNECTION_EVENT) {
-								// check if it was a disconnection
-								// in this case disconnect the wiimote
-								closeConnection(evt.getWiimoteId());
-							}
-						} else {
-							System.out
-									.println("There is an event with id == -1 ??? there is a problem !!! : "
-											+ evt);
+				/* deal with events gathered in Wiiuse API */
+				for (WiiUseApiEvent evt : gather.getEvents()) {
+					if (evt.getWiimoteId() != -1) {// event filled
+						// there is an event notify observers
+						notifyWiiUseApiListener(evt);
+						if (evt.getEventType() == WiiUseApiEvent.DISCONNECTION_EVENT) {
+							// check if it was a disconnection
+							// in this case disconnect the wiimote
+							closeConnection(evt.getWiimoteId());
 						}
+					} else {
+						System.out
+								.println("There is an event with id == -1 ??? there is a problem !!! : "
+										+ evt);
 					}
-					gather.clearEvents();
 				}
-			}/* else {
-				if (connected <= 0) {
-					System.out.println("No wiimotes connected !");
-				}
-			}*/
-		}// end while true
+				gather.clearEvents();
+			}
+		}
+
 	}
 
 	/**
