@@ -208,7 +208,6 @@ public class WiiUseApiManager extends Thread {
 		}
 		running.set(false);
 		if (pastConnected > 0) {
-			// Shouldn't this be called always?
 			wiiuse.cleanUp();
 		}
 	}
