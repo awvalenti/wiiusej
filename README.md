@@ -1,10 +1,21 @@
 # wiiusej
-A Java API for Wiimotes, fork of [guiguito's wiiusej](https://github.com/guiguito/wiiusej), originally on [Google Code](https://code.google.com/p/wiiusej/). Tested only on Windows.
+A Java API for Wiimotes, fork of
+[guiguito's wiiusej](https://github.com/guiguito/wiiusej),
+originally on [Google Code](https://code.google.com/p/wiiusej/).
+
+## Purpose
+The purpose of this fork is to serve as a basis for the development of
+[coronata](https://github.com/awvalenti/bauhinia/tree/master/coronata).
+I don't recommend
+using this wiiusej fork directly, since it is properly tested
+only inside coronata.
 
 ## Changes from original version
-- Project splitted into Maven modules
-- Detecting operating system automatically
-- Unpacking appropriate native libraries from JAR file to temp directory
+- Maven modules
+- Operating system detection
+- Native libraries unpacking to temp directory
+- Improved thread management
+- wiiuse cleanup via shutdown hook (runs when Java program finishes)
 
 ## License
 [GPL v3](http://www.gnu.org/licenses/gpl-3.0.en.html)
@@ -31,37 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ## Dependencies
 wiiusej includes binaries from
 [wiiuse](http://www.macs.hw.ac.uk/~ruth/year4VEs/Labs/wiiuse.html),
-a native Wiimote library by Michael Laforest.
-
-## Installation
-You can either:
-- download a [released JAR](../../releases) and add it to the build path of your project
-- use a dependency management tool like [Maven](https://maven.apache.org) or [Gradle](http://gradle.org/)
-
-For the second option, there is a free service called [JitPack](https://jitpack.io/) that allows adding a project hosted on GitHub as a dependency. It downloads source code, builds JARs and serves them to you.
-
-To use wiiusej on a Maven project, add this to your pom.xml:
-
-```xml
-<repositories>
-  <repository>
-    <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
-  </repository>
-</repositories>
-
-<dependencies>
-  <dependency>
-    <groupId>com.github.awvalenti.wiiusej</groupId>
-    <artifactId>wiiusej-lib</artifactId>
-    <version>v0.13</version>
-  </dependency>
-</dependencies>
-```
-
-On ```<version>```, put either a git tag correponding to a released version (which is the case above) or a commit hash.
-
-If you use Eclipse, sometimes the Maven plugin is unable to download JAR files properly from JitPack. If that happens, please try running ```mvn install``` from the command line and then updating Maven project on Eclipse (```right-click on the project > Maven > Update Project...```).
+a native Wiimote library by Michael Laforest, licensed under GPL v3.
 
 ## Original readme
 ```
