@@ -17,6 +17,7 @@
 package wiiusej;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.event.EventListenerList;
 
@@ -34,7 +35,7 @@ import wiiusej.wiiusejevents.wiiuseapievents.WiiUseApiEvent;
  */
 public class WiiUseApiManager {
 
-	private volatile static int threadId = 0;
+	private static final AtomicInteger threadId = new AtomicInteger(0);
 
 	private final EventListenerList listeners = new EventListenerList();
 
@@ -529,8 +530,8 @@ public class WiiUseApiManager {
 		public void startIfNotRunning() {
 			boolean isNotRunning = running.compareAndSet(false, true);
 			if (isNotRunning) {
-				String name = getClass().getSimpleName() + "-" + threadId++;
-				new Thread(this, name).start();
+				new Thread(this, getClass().getSimpleName() + "-" +
+						threadId.getAndIncrement()).start();
 			}
 		}
 
