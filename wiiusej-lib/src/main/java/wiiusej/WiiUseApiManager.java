@@ -34,6 +34,8 @@ import wiiusej.wiiusejevents.wiiuseapievents.WiiUseApiEvent;
  */
 public class WiiUseApiManager {
 
+	private volatile static int threadId = 0;
+
 	private final EventListenerList listeners = new EventListenerList();
 
 	private Wiimote[] wiimotes;
@@ -53,7 +55,7 @@ public class WiiUseApiManager {
 	/**
 	 * @author awvalenti
 	 */
-	private PollingThread pollingThread = new PollingThread();
+	private WiiusejPollingThread pollingThread = new WiiusejPollingThread();
 
 	/**
 	 * @author awvalenti
@@ -522,11 +524,14 @@ public class WiiUseApiManager {
 	/**
 	 * @author awvalenti
 	 */
-	private class PollingThread implements Runnable {
+	private class WiiusejPollingThread implements Runnable {
 
 		public void startIfNotRunning() {
 			boolean isNotRunning = running.compareAndSet(false, true);
-			if (isNotRunning) new Thread(this).start();
+			if (isNotRunning) {
+				String name = getClass().getSimpleName() + "-" + threadId++;
+				new Thread(this, name).start();
+			}
 		}
 
 		/**
