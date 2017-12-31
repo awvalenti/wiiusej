@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.github.awvalenti.wiiusej</groupId>
 		<artifactId>wiiusej</artifactId>
-		<version>0.14-SNAPSHOT</version>
+		<version>0.14</version>
 	</parent>
 
 	<artifactId>wiiusej-lib</artifactId>

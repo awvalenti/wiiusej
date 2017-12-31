@@ -2,7 +2,7 @@ Project information and source code available at:
   https://github.com/awvalenti/wiiusej
 
 wiiusej - Java API for Wiimotes, modified version of Guilhem Duche's
-Copyright (C) 2015, 2016  Andre Willik Valenti
+Copyright (C) 2015 - 2017  Andre Willik Valenti
 Copyright (C) 2008  Guilhem Duche
 
 wiiusej depends on this project:

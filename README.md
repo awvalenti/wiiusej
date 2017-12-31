@@ -22,7 +22,7 @@ only inside coronata.
 
 ```
 wiiusej - A Java API for Wiimotes
-Copyright (C) 2015  Andre Willik Valenti
+Copyright (C) 2015 - 2017  Andre Willik Valenti
 Copyright (C) 2008  Guilhem Duche
 
 This program is free software: you can redistribute it and/or modify
